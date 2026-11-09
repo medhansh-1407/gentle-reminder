@@ -172,6 +172,47 @@ fn stop_screen_recording(state: tauri::State<AppState>, severity: u8) -> Result<
 }
 
 #[tauri::command]
+fn export_video(state: tauri::State<AppState>, output_path: String) -> Result<String, String> {
+    let capture = state.capture.lock().map_err(|e| format!("Lock error: {}", e))?;
+    let frames_dir = std::path::Path::new(&capture.frames_dir);
+
+    if !frames_dir.exists() {
+        return Err("Frames directory does not exist".to_string());
+    }
+
+    let output = std::path::Path::new(&output_path);
+    if let Some(parent) = output.parent() {
+        fs::create_dir_all(parent).map_err(|e| format!("Failed to create output dir: {}", e))?;
+    }
+
+    let input_pattern = format!("{}/frame_%010.png", frames_dir.display());
+    let status = std::process::Command::new("ffmpeg")
+        .args([
+            "-framerate", "5",
+            "-i", &input_pattern,
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-y",
+            output.to_str().ok_or("Invalid output path")?,
+        ])
+        .output()
+        .map_err(|e| format!("Failed to run ffmpeg: {}", e))?;
+
+    if status.status.success() {
+        Ok(output_path)
+    } else {
+        let stderr = String::from_utf8_lossy(&status.stderr);
+        Err(format!("FFmpeg error: {}", stderr))
+    }
+}
+
+#[tauri::command]
+fn get_frames_directory() -> String {
+    let base = dirs::data_dir().unwrap_or_else(|| std::env::current_dir().unwrap_or_default());
+    base.join("gentle-reminder").join("frames").to_string_lossy().to_string()
+}
+
+#[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! Gentle Reminder is ready.", name)
 }
@@ -380,6 +421,8 @@ fn main() {
             save_knowledge_entry,
             start_screen_recording,
             stop_screen_recording,
+            export_video,
+            get_frames_directory,
             greet,
         ])
         .run(tauri::generate_context!())

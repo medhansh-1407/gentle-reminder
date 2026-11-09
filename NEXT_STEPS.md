@@ -13,15 +13,28 @@ All tasks completed and build artifacts created.
 3. ✓ **Auto-start recording** - Recording starts on app launch, continues until close
 4. ✓ **Design rules applied** - All Tailwind classes updated to project palette
 5. ✓ **Frame images display** - Fixed `file://` URLs using `convertFileSrc` from `@tauri-apps/api/core`
+6. ✓ **Frame to video conversion** - Added `export_video` command using ffmpeg to compile frames to MP4
 6. ✓ **Artifacts built** - Desktop exe at `src-tauri/target/release/gentle-reminder.exe`
 7. ✓ **Build completed successfully** - Both frontend and Rust backend compiled without errors
 
 ## Build Artifacts
 
-- Executable: `src-tauri/target/release/gentle-reminder.exe` (18.7 MB)
-- Installer (NSIS): `src-tauri/target/release/bundle/nsis/Gentle Reminder_1.0.0_x64-setup.exe` (4.4 MB)
-- MSI Installer: `src-tauri/target/release/bundle/msi/Gentle Reminder_1.0.0_x64_en-US.msi` (6.3 MB)
+- Executable: `src-tauri/target/release/gentle-reminder.exe`
+- Installer (NSIS): `src-tauri/target/release/bundle/nsis/Gentle Reminder_1.0.0_x64-setup.exe`
+- MSI Installer: `src-tauri/target/release/bundle/msi/`
 - Web build: `dist/`
+
+## Frame to Video Conversion
+
+A new `export_video` command converts recorded frames to MP4 video:
+- Uses ffmpeg to compile frames at 5 FPS into a .mp4 file
+- Call `export_video(outputPath)` from frontend to generate video
+- New `get_frames_directory()` command returns the frames directory path
+
+Usage:
+```typescript
+const videoPath = await exportVideo('/path/to/output.mp4');
+```
 
 ## Files Modified
 

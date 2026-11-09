@@ -82,6 +82,17 @@ function App() {
     }
   };
 
+  const exportVideo = async (outputPath: string) => {
+    try {
+      const { invoke } = await import('@tauri-apps/api/core');
+      const result = await invoke<string>('export_video', { outputPath });
+      return result;
+    } catch (err) {
+      console.error('Failed to export video:', err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     if (!isTauri()) {
       setIsRecording(false);
