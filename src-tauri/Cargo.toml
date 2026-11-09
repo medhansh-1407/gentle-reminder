@@ -5,11 +5,6 @@ description = "Gentle Reminder — capture how work really gets done, so knowled
 authors = ["Milind Desai"]
 edition = "2021"
 
-[lib]
-name = "gentle_reminder_lib"
-crate-type = ["staticlib", "cdylib", "rlib"]
-path = "src/main.rs"
-
 [build-dependencies]
 tauri-build = { version = "2.0", features = [] }
 
@@ -26,6 +21,10 @@ env_logger = "0.11"
 tauri-plugin-log = "2.0"
 tauri-plugin-dialog = "2.0"
 tauri-plugin-fs = "2.0"
+xcap = "0.9"
+image = "0.25"
+dirs = "5.0"
+anyhow = "1.0"
 
 [features]
 default = ["custom-protocol"]

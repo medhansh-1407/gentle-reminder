@@ -18,7 +18,7 @@ export type CaptureLevel =
 export interface ActivityEvent {
   id: string;
   timestamp: string;
-  type: string;
+  eventType: string;
   title: string;
   detail: string;
   severity?: number;
@@ -54,12 +54,12 @@ export function calculateDynamicSeverity(
   let aiScore = Math.max(userRating, 5);
 
   // Count failure indicators from events
-  const terminalCommands = events.filter((e) => e.type === 'terminal').length;
+  const terminalCommands = events.filter((e) => e.eventType === 'terminal').length;
   const failedAttempts = events.filter(
     (e) => e.tags?.includes('failed') || e.detail.toLowerCase().includes('fail')
   ).length;
-  const fileSwitches = events.filter((e) => e.type === 'file').length;
-  const aiInteractions = events.filter((e) => e.type === 'ai').length;
+  const fileSwitches = events.filter((e) => e.eventType === 'file').length;
+  const aiInteractions = events.filter((e) => e.eventType === 'ai').length;
   const sessionDuration =
     events.length > 1
       ? Math.max(0, new Date(events[events.length - 1].timestamp).getTime() -

@@ -20,14 +20,15 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": null,
+      "devCsp": null
     }
   },
   "bundle": {
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/icon.png"
+      "icons/icon.ico"
     ]
   }
 }

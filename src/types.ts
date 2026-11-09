@@ -13,7 +13,7 @@ export type EventType =
 export interface ActivityEvent {
   id: string;
   timestamp: string;
-  type: EventType;
+  eventType: EventType;
   title: string;
   detail: string;
   severity?: number;

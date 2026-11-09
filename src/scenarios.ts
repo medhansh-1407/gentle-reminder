@@ -1,4 +1,17 @@
-import type { Scenario, ActivityEvent, ProblemEntry } from './types';
+import type { Scenario, ActivityEvent as ActivityEventTypes, ProblemEntry } from './types';
+
+function toActivityEvent(e: { id: string; timestamp: string; type: string; title: string; detail: string; tags?: string[] }): ActivityEventTypes {
+  return {
+    id: e.id,
+    timestamp: e.timestamp,
+    eventType: e.type,
+    title: e.title,
+    detail: e.detail,
+    tags: e.tags,
+  };
+}
+
+export type ActivityEvent = ActivityEventTypes;
 
 export const SCENARIOS: Scenario[] = [
   {
