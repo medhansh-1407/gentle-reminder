@@ -1,0 +1,31 @@
+[package]
+name = "gentle-reminder"
+version = "1.0.0"
+description = "Gentle Reminder — capture how work really gets done, so knowledge never walks out the door"
+authors = ["Milind Desai"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0", features = [] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rusqlite = { version = "0.31", features = ["bundled"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4"] }
+notify = "6"
+log = "0.4"
+env_logger = "0.11"
+tauri-plugin-log = "2.0"
+tauri-plugin-dialog = "2.0"
+tauri-plugin-fs = "2.0"
+xcap = "0.9"
+image = "0.25"
+dirs = "5.0"
+anyhow = "1.0"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
