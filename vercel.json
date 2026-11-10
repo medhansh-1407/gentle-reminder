@@ -6,13 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
-      },
-      "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "/$1"
-        }
-      ]
+      }
     }
   ],
   "routes": [
